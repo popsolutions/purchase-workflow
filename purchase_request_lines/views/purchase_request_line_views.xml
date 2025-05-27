@@ -1,0 +1,57 @@
+<odoo>
+
+    <!-- Inherit Purchase Request form view -->
+    <record id="view_purchase_request_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.request.form.inherit</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form" />
+        <field name="arch" type="xml">
+
+            <!-- Add sequence column before product_id -->
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='product_id']"
+                position="before"
+            >
+                <field name="sequence_id" string="#" readonly="1" />
+            </xpath>
+
+            <!-- Modify label of date_required -->
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='date_required']"
+                position="attributes"
+            >
+                <attribute name="string">Data Estimada de Uso</attribute>
+            </xpath>
+
+            <!-- Hide estimated_cost -->
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='estimated_cost']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Hide purchased_qty -->
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='purchased_qty']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit search view to add 'name' filter -->
+    <record id="view_purchase_request_line_search_inherit" model="ir.ui.view">
+        <field name="name">purchase.request.line.search.inherit</field>
+        <field name="model">purchase.request.line</field>
+        <field name="inherit_id" ref="purchase_request.purchase_request_line_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="name" string="Descrição" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
